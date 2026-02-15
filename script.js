@@ -49,7 +49,7 @@ function renderMenu() {
     `;
 
     // Gọi API từ json-server
-    fetch('http://localhost:5000/products')
+    fetch('/products')
         .then(response => response.json())
         .then(data => {
             menuContainer.innerHTML = ''; // Xóa loading
@@ -76,7 +76,7 @@ function renderMenu() {
 
 // Hàm giả lập xem chi tiết 
 function showProductDetail(id) {
-    fetch(`http://localhost:5000/products/${id}`)
+    fetch(`/products/${id}`)
         .then(response => response.json())
         .then(product => {
             alert(`Bạn chọn món: ${product.name}\nGiá: ${formatCurrency(product.price)}`);
