@@ -26,9 +26,21 @@ app.use(express.json());
 // Serve static files from the current directory
 app.use(express.static(__dirname));
 
-// Serve index.html for the root route explicitly (optional, but good for safety)
+// Serve index.html for root
 app.get('/', (req, res) => {
     res.sendFile(__dirname + '/index.html');
+});
+
+// Helper route to check Server IP
+app.get('/server-ip', async (req, res) => {
+    try {
+        // Dynamic import for node-fetch if needed, or use native fetch in Node 18+
+        const response = await fetch('https://api.ipify.org?format=json');
+        const data = await response.json();
+        res.send(data.ip);
+    } catch (error) {
+        res.status(500).send(`Error fetching IP: ${error.message}`);
+    }
 });
 
 // Routes

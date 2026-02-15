@@ -76,6 +76,12 @@
         <button class="danger" onclick="seedData()">Tạo dữ liệu mẫu</button>
     </div>
 
+    <div class="card">
+        <h2>3. Kiểm tra IP Server</h2>
+        <p>Xem địa chỉ IP mà Server đang dùng để kết nối ra ngoài (dùng để Whitelist trên MongoDB Atlas).</p>
+        <button onclick="checkServerIP()">Xem IP Server</button>
+    </div>
+
     <h3>Kết quả:</h3>
     <div id="output">Chưa có hành động nào...</div>
 
@@ -86,6 +92,21 @@
             output.innerHTML = msg;
             output.style.color = isError ? 'red' : 'green';
             if (!isError) output.style.color = '#333';
+        }
+
+        async function checkServerIP() {
+            log("Đang lấy IP Server...");
+            try {
+                const res = await fetch('/server-ip');
+                const text = await res.text();
+                if (res.ok) {
+                    log(`✅ IP CỦA SERVER LÀ:\n\n${text}\n\n👉 Hãy copy IP này và thêm vào 'Network Access' trên MongoDB Atlas (IP Whitelist).`);
+                } else {
+                    log(`❌ Không lấy được IP: ${text}`, true);
+                }
+            } catch (err) {
+                log(`❌ Lỗi kết nối: ${err.message}`, true);
+            }
         }
 
         async function checkHealth() {
