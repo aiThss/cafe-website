@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Server Helper</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            padding: 20px;
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        .card {
+            border: 1px solid #ccc;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            margin-top: 0;
+        }
+
+        button {
+            padding: 10px 20px;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-right: 10px;
+        }
+
+        button:hover {
+            background: #0056b3;
+        }
+
+        button.danger {
+            background: #dc3545;
+        }
+
+        button.danger:hover {
+            background: #a71d2a;
+        }
+
+        #output {
+            background: #f4f4f4;
+            padding: 15px;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+            white-space: pre-wrap;
+            font-family: monospace;
+            min-height: 100px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>🛠️ Công cụ hỗ trợ Server</h1>
+
+    <div class="card">
+        <h2>1. Kiểm tra kết nối</h2>
+        <p>Thử lấy danh sách sản phẩm để xem Database đã kết nối chưa.</p>
+        <button onclick="checkHealth()">Kiểm tra API</button>
+    </div>
+
+    <div class="card">
+        <h2>2. Khởi tạo dữ liệu (Seed)</h2>
+        <p>Nếu Database kết nối được nhưng Menu trống, hãy bấm nút này để tạo dữ liệu mẫu.</p>
+        <button class="danger" onclick="seedData()">Tạo dữ liệu mẫu</button>
+    </div>
+
+    <h3>Kết quả:</h3>
+    <div id="output">Chưa có hành động nào...</div>
+
+    <script>
+        const output = document.getElementById('output');
+
+        function log(msg, isError = false) {
+            output.innerHTML = msg;
+            output.style.color = isError ? 'red' : 'green';
+            if (!isError) output.style.color = '#333';
+        }
+
+        async function checkHealth() {
+            log("Đang kiểm tra kết nối tới /products...");
+            try {
+                const res = await fetch('/products');
+                const text = await res.text();
+
+                if (res.ok) {
+                    try {
+                        const json = JSON.parse(text);
+                        log(`✅ THÀNH CÔNG!\nServer phản hồi tốt.\nSố lượng món ăn: ${json.length}\n\nDữ liệu:\n${JSON.stringify(json, null, 2)}`);
+                    } catch (e) {
+                        log(`✅ Server phản hồi (Text), nhưng không phải JSON:\n${text}`);
+                    }
+                } else {
+                    log(`❌ LỖI SERVER (${res.status}):\n${text}`, true);
+                }
+            } catch (err) {
+                log(`❌ LỖI KẾT NỐI: ${err.message}`, true);
+            }
+        }
+
+        async function seedData() {
+            if (!confirm("Bạn có chắc chắn muốn xóa dữ liệu cũ và tạo lại dữ liệu mẫu không?")) return;
+
+            log("Đang gửi lệnh tạo dữ liệu (POST /products/seed)...");
+            try {
+                const res = await fetch('/products/seed', { method: 'POST' });
+                const text = await res.text();
+
+                if (res.ok) {
+                    log(`✅ ĐÃ TẠO DỮ LIỆU THÀNH CÔNG!\n\nKết quả:\n${text}`);
+                } else {
+                    log(`❌ TẠO DỮ LIỆU THẤT BẠI (${res.status}):\n${text}`, true);
+                }
+            } catch (err) {
+                log(`❌ LỖI KẾT NỐI: ${err.message}`, true);
+            }
+        }
+    </script>
+</body>
+
+</html>
