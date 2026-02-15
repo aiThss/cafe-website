@@ -16,7 +16,13 @@ const PORT = process.env.PORT || 5000;
 // Connect to MongoDB with better error handling and timeout settings
 // Connect to MongoDB
 // Connect to MongoDB
-mongoose.connect(process.env.MONGO_URI)
+mongoose.connect(process.env.MONGO_URI, {
+    serverApi: {
+        version: '1',
+        strict: true,
+        deprecationErrors: true,
+    }
+})
     .then(() => console.log('MongoDB connection successful!'))
     .catch(err => console.error('MongoDB connection error:', err));
 
