@@ -48,8 +48,15 @@ function renderMenu() {
         </div>
     `;
 
+    // Xác định URL API dựa trên môi trường (Local hay Production)
+    const isLocal = window.location.hostname === '127.0.0.1' || window.location.hostname === 'localhost';
+    // Nếu chạy local, trỏ về backend local (port 5000). Nếu deploy, dùng relative path.
+    const API_URL = isLocal ? 'http://localhost:5000/products' : '/products';
+
+    console.log('Fetching menu from:', API_URL);
+
     // Gọi API từ json-server
-    fetch('/products')
+    fetch(API_URL)
         .then(response => response.json())
         .then(data => {
             menuContainer.innerHTML = ''; // Xóa loading
