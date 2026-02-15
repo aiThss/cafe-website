@@ -70,7 +70,11 @@ function renderMenu() {
         })
         .catch(error => {
             console.error('Lỗi lấy dữ liệu:', error);
-            menuContainer.innerHTML = '<p style="text-align:center; color:red; width: 100%; grid-column: span 2;">Server không phản hồi... !</p>';
+            menuContainer.innerHTML = `<div style="text-align:center; color:red; width: 100%; grid-column: span 2; padding: 20px;">
+                <h3>Server không phản hồi!</h3>
+                <p>Chi tiết lỗi: ${error.message}</p>
+                <p>Vui lòng kiểm tra lại kết nối mạng hoặc thử lại sau.</p>
+            </div>`;
         });
 }
 
