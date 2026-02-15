@@ -1,4 +1,10 @@
 require('dotenv').config();
+const dns = require('dns');
+try {
+    dns.setServers(['8.8.8.8', '8.8.4.4']); // Force Google DNS to fix SRV lookup
+} catch (e) {
+    console.log('Could not set custom DNS servers');
+}
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
