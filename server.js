@@ -14,6 +14,14 @@ mongoose.connect(process.env.MONGO_URI)
 app.use(cors());
 app.use(express.json());
 
+// Serve static files from the current directory
+app.use(express.static(__dirname));
+
+// Serve index.html for the root route explicitly (optional, but good for safety)
+app.get('/', (req, res) => {
+    res.sendFile(__dirname + '/index.html');
+});
+
 // Routes
 const productRouter = require('./routes/products');
 app.use('/products', productRouter);
