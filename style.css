@@ -1202,7 +1202,7 @@ body.dark-mode .info-card:hover {
 
     .footer-content,
     .footer-content p {
-        color: #FFD700 !important;
+        color: #ffffff !important;
         /* Màu Vàng Gold nổi bật */
         text-shadow: 0 2px 4px rgba(0, 0, 0, 0.9);
         /* Bóng đen đậm để đọc rõ */
@@ -1217,7 +1217,7 @@ body.dark-mode .info-card:hover {
     }
 
     .menu-duoi .muc-menu svg {
-        fill: #ff8a80 !important;
+        fill: #d33d2f !important;
         filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.8));
     }
 
@@ -1233,7 +1233,7 @@ body.dark-mode .info-card:hover {
         text-shadow:
             2px 2px 0px #000,
             /* Viền đen cứng */
-            0 0 10px #FFD700;
+            0 0 10px #ffffff;
         /* Tỏa sáng vàng */
     }
 
