@@ -1221,31 +1221,27 @@ body.dark-mode .info-card:hover {
         filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.8));
     }
 
-    /* 1. TIÊU ĐỀ LỚN (Tên trang, Chào mừng...) - Vàng Sáng, Bỏ Blur chói */
+    /* 1. TIÊU ĐỀ LỚN (Tên trang, Chào mừng...) - Chỉ Mobile mới màu Vàng */
     h1,
     h2,
     .welcome-banner p {
         color: #FFFF00 !important;
-        /* Vàng chanh như cũ */
+        /* Vàng chanh */
         text-shadow: 2px 2px 0px #000000;
-        /* Viền đen cứng, không tỏa sáng */
+        /* Viền đen cứng */
         font-weight: bold;
     }
 
-    /* 2. TIÊU ĐỀ MỤC CON (Tên món, Tên card, Giỏ hàng...) - Đỏ Đậm */
+    /* 2. TIÊU ĐỀ MỤC CON (Tên món, Giỏ hàng...) - Đỏ Đậm giống Desktop */
     h3,
     .menu-item h3,
     .san-pham-mau h3,
     .info-card h3 {
-        color: #ce1212 !important;
-        /* Đỏ đậm rực rỡ */
-        text-shadow:
-            1px 1px 0px #ffffff,
-            /* Viền trắng mỏng để nổi trên nền tối */
-            0px 0px 2px rgba(255, 255, 255, 0.5);
-        /* Tỏa sáng cực nhẹ tí xíu thôi */
-        font-weight: 800;
-        /* Tăng độ đậm nét */
+        color: #D32F2F !important;
+        /* Đỏ đun giống Desktop */
+        text-shadow: none !important;
+        /* Bỏ hiệu ứng viền để giống Desktop cho sạch */
+        font-weight: 700;
     }
 
     /* Đổi màu chữ thông thường (như Giỏ hàng trống, mô tả) sang Trắng/Xám sáng */
