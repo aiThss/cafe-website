@@ -332,31 +332,51 @@
         <div class="spinner"></div>
     </div>
 
+    <!-- Error Display -->
+    <div id="jsError"
+        style="display:none; color: red; background: white; padding: 20px; position: fixed; top: 10px; left: 10px; z-index: 9999;">
+    </div>
+
     <script>
+        window.onerror = function (msg, url, line) {
+            document.getElementById('jsError').style.display = 'block';
+            document.getElementById('jsError').innerText = `Lỗi JS: ${msg}\nLine: ${line}`;
+            return false;
+        };
+
         // 1. KIỂM TRA ĐĂNG NHẬP
         const token = localStorage.getItem('token');
         if (!token) {
-            alert('Bạn chưa đăng nhập! Vui lòng đăng nhập để truy cập.');
-            window.location.href = 'login.html';
+            // Không alert làm phiền, chuyển thẳng về login nếu không phải dev
+            if (window.location.hostname !== 'localhost') {
+                window.location.href = 'index.html';
+            }
+        } else {
+            document.querySelector('.admin-container').style.display = 'block'; // Hiện nội dung
         }
 
         const API_URL = window.location.hostname === 'localhost' ? 'http://localhost:5000' : '';
-        document.getElementById('adminName').innerText = 'Xin chào, ' + (localStorage.getItem('username') || 'Admin');
+        document.getElementById('adminName').innerText = 'Xin chào, ' + (localStorage.getItem('username') || 'Sếp');
 
         // Hàm gọi API có kèm Token
         async function fetchWithAuth(url, options = {}) {
             const headers = {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`, // Gửi token lên server
+                'Authorization': `Bearer ${token}`,
                 ...options.headers
             };
-            const response = await fetch(url, { ...options, headers });
-            if (response.status === 401 || response.status === 403) {
-                alert('Phiên đăng nhập hết hạn hoặc không có quyền!');
-                logout();
-                return null;
+            try {
+                const response = await fetch(url, { ...options, headers });
+                if (response.status === 401 || response.status === 403) {
+                    alert('Phiên đăng nhập hết hạn!');
+                    logout();
+                    return null;
+                }
+                return response;
+            } catch (e) {
+                alert('Lỗi kết nối: ' + e.message);
+                throw e;
             }
-            return response;
         }
 
         // Load danh sách món

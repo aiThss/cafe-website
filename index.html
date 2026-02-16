@@ -213,8 +213,8 @@
                 if (res.ok) {
                     localStorage.setItem('token', data.token);
                     localStorage.setItem('username', data.username);
-                    alert('Đăng nhập thành công! Chuyển hướng đến Admin...');
-                    window.location.href = '/admin'; // Clean URL
+                    alert('Đăng nhập thành công! Chuyển hướng đến Trang Quản Lý...');
+                    window.location.href = '/quan-ly'; // Clean URL mới
                 } else {
                     throw new Error(data.message || 'Đăng nhập thất bại');
                 }

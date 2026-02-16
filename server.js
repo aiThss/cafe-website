@@ -42,11 +42,13 @@ app.get('/menu', (req, res) => {
     res.sendFile(path.join(__dirname, 'menu.html'));
 });
 
-app.get('/admin', (req, res) => {
+// Đổi route Admin thành Quan-ly để né AdBlock
+app.get('/quan-ly', (req, res) => {
     res.sendFile(path.join(__dirname, 'admin.html'));
 });
 
-// Redirect các request cũ nếu có (Optional)
+// Redirect route cũ
+app.get('/admin', (req, res) => res.redirect('/quan-ly'));
 app.get('/MENU.HTML', (req, res) => res.redirect('/menu'));
 
 // Serve index.html for root
