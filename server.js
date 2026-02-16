@@ -44,7 +44,7 @@ app.get('/menu', (req, res) => {
 
 // Đổi route Admin thành Quan-ly để né AdBlock
 app.get('/quan-ly', (req, res) => {
-    res.sendFile(path.join(__dirname, 'admin.html'));
+    res.sendFile(path.join(__dirname, 'dashboard.html'));
 });
 
 // Redirect route cũ
