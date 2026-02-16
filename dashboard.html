@@ -4,20 +4,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quản Trị Cửa Hàng - Coffee Plizme</title>
+    <title>Quản Lý Cửa Hàng - Coffee Plizme</title>
     <!-- Tận dụng style của trang chính -->
     <link rel="stylesheet" href="style.css?v=mobile_update_v4">
     <!-- Font Awesome cho icon -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         body {
-            /* Nền tối sang trọng cho Admin */
+            /* Nền tối sang trọng cho Manager */
             background-color: #1a1a1a;
             color: #eee;
             padding-bottom: 50px;
         }
 
-        .admin-header {
+        .mgr-header {
             background: #D32F2F;
             color: white;
             padding: 15px 20px;
@@ -30,11 +30,10 @@
             z-index: 1000;
         }
 
-        .admin-header h2 {
+        .mgr-header h2 {
             margin: 0;
             font-size: 1.5rem;
             color: white !important;
-            /* Override màu vàng cũ */
             text-shadow: none !important;
         }
 
@@ -54,10 +53,12 @@
         }
 
         /* Container chính */
-        .admin-container {
+        .mgr-container {
             max-width: 1200px;
             margin: 20px auto;
             padding: 0 15px;
+            /* Force show content */
+            display: block !important;
         }
 
         /* Thẻ Thống Kê Nhanh */
@@ -352,11 +353,13 @@
                 window.location.href = 'index.html';
             }
         } else {
-            document.querySelector('.admin-container').style.display = 'block'; // Hiện nội dung
+            const container = document.querySelector('.mgr-container');
+            if (container) container.style.display = 'block';
         }
 
         const API_URL = window.location.hostname === 'localhost' ? 'http://localhost:5000' : '';
-        document.getElementById('adminName').innerText = 'Xin chào, ' + (localStorage.getItem('username') || 'Sếp');
+        const nameEl = document.getElementById('mgrName');
+        if (nameEl) nameEl.innerText = 'Xin chào, ' + (localStorage.getItem('username') || 'Sếp');
 
         // Hàm gọi API có kèm Token
         async function fetchWithAuth(url, options = {}) {
@@ -440,10 +443,6 @@
                     method = 'PUT'; // Cần API update (chưa có, sẽ báo nếu lỗi)
                 }
 
-                // Tạm thời Backend chưa có API Add/Update chuẩn Authentication
-                // Ở bước sau tôi sẽ update backend để xử lý vụ này.
-                // Hiện tại cứ giả lập gửi request
-
                 const res = await fetchWithAuth(url, {
                     method: method,
                     body: JSON.stringify(productData)
@@ -453,8 +452,6 @@
                     alert(isEdit ? 'Sửa món thành công!' : 'Thêm món thành công!');
                     resetForm();
                     loadProducts();
-                    // Gọi API reload frontend
-                    // ... (Tính năng nâng cao: Gửi socket báo client reload)
                 } else {
                     const errData = await res.json();
                     alert('Lỗi: ' + (errData.message || 'Không thể lưu món'));
@@ -519,7 +516,7 @@
             localStorage.removeItem('token');
             localStorage.removeItem('username');
             localStorage.removeItem('isAdmin');
-            window.location.href = 'login.html';
+            window.location.href = 'index.html';
         };
 
         function showLoading(show) {
