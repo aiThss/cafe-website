@@ -1233,10 +1233,15 @@ body.dark-mode .info-card:hover {
     }
 
     /* 2. TIÊU ĐỀ MỤC CON (Tên món, Giỏ hàng...) - Đỏ Đậm giống Desktop */
+    /* 2. TIÊU ĐỀ MỤC CON (Tên món, Giỏ hàng...) - Đỏ Đậm CẢ SÁNG LẪN TỐI */
     h3,
     .menu-item h3,
     .san-pham-mau h3,
-    .info-card h3 {
+    .info-card h3,
+    body.dark-mode h3,
+    /* Override Dark Mode */
+    body.dark-mode .menu-item h3,
+    body.dark-mode .san-pham-mau h3 {
         color: #D32F2F !important;
         /* Đỏ đun giống Desktop */
         text-shadow: none !important;
