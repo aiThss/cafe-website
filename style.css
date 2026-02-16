@@ -1249,13 +1249,32 @@ body.dark-mode .info-card:hover {
         font-weight: 700;
     }
 
+    /* 3. CARD NỀN TỐI ĐỒNG BỘ (Menu Item, Info Card...) */
+    .menu-item,
+    .san-pham-mau,
+    .info-card,
+    body.dark-mode .menu-item,
+    body.dark-mode .san-pham-mau,
+    body.dark-mode .info-card {
+        background-color: rgba(0, 0, 0, 0.7) !important;
+        /* Nền đen mờ 70% */
+        border: 1px solid rgba(255, 255, 255, 0.2) !important;
+        /* Viền trắng mờ */
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5) !important;
+        /* Bóng đổ đậm */
+        backdrop-filter: blur(10px);
+        /* Hiệu ứng kính mờ */
+    }
+
     /* Đổi màu chữ thông thường (như Giỏ hàng trống, mô tả) sang Trắng/Xám sáng */
     p,
     span,
-    .san-pham-mau p {
+    .san-pham-mau p,
+    .menu-item span {
         color: #f5f5f5 !important;
         /* Trắng khói */
         text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
         /* Bóng đen để đọc được trên mọi nền */
+        font-weight: 500;
     }
 }
