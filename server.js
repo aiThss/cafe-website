@@ -8,6 +8,7 @@ try {
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
+const path = require('path'); // Fix lỗi thiếu path
 
 const app = express();
 const PORT = process.env.PORT || 5000;
