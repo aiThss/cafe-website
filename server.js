@@ -32,6 +32,22 @@ app.use(express.json());
 // Serve static files from the current directory
 app.use(express.static(__dirname));
 
+// --- CLEAN URL ROUTING (Ẩn đuôi .html) ---
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'index.html'));
+});
+
+app.get('/menu', (req, res) => {
+    res.sendFile(path.join(__dirname, 'menu.html'));
+});
+
+app.get('/admin', (req, res) => {
+    res.sendFile(path.join(__dirname, 'admin.html'));
+});
+
+// Redirect các request cũ nếu có (Optional)
+app.get('/MENU.HTML', (req, res) => res.redirect('/menu'));
+
 // Serve index.html for root
 app.get('/', (req, res) => {
     res.sendFile(__dirname + '/index.html');

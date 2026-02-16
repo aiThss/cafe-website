@@ -14,20 +14,235 @@
     <!-- Custom Header giống Highlands -->
     <!-- Custom Header Ruy Băng -->
     <header class="main-header ribbon-style">
-        <div class="header-content">
-            <img src="cfe_img/coffee-img/logo-resize.png" alt="Coffee Plizme" class="header-logo">
-        </div>
-        <div class="nut-che-do">
-            <span>Chế độ</span>
+        <div class="welcome-banner">
+            <p>Chào Mừng Đến Với</p>
+            <img src="cfe_img/coffee-img/coffee_baner.png" alt="Coffee Plizme Logo" class="banner-logo"
+                style="max-width: 80%; margin: 20px 0;">
+
+            <div class="text-container">
+                <span class="letter">N</span>
+                <span class="letter">ơ</span>
+                <span class="letter">i</span>
+                <span class="letter">&nbsp;</span>
+                <span class="letter">t</span>
+                <span class="letter">ì</span>
+                <span class="letter">n</span>
+                <span class="letter">h</span>
+                <span class="letter">&nbsp;</span>
+                <span class="letter">y</span>
+                <span class="letter">ê</span>
+                <span class="letter">u</span>
+                <span class="letter">&nbsp;</span>
+                <span class="letter">b</span>
+                <span class="letter">ố</span>
+                <span class="letter">c</span>
+                <span class="letter">&nbsp;</span>
+                <span class="letter">đ</span>
+                <span class="letter">ầ</span>
+                <span class="letter">u</span>
+            </div>
+
+            <!-- AUTH BUTTONS SECTION -->
+            <div class="auth-buttons" style="margin-top: 30px; display: flex; justify-content: center; gap: 15px;">
+                <button onclick="openLoginModal()" class="btn-auth btn-login">Đăng Nhập</button>
+                <button onclick="openComingSoon()" class="btn-auth btn-register">Đăng Ký</button>
+            </div>
         </div>
     </header>
 
+    <!-- LOGIN MODAL -->
+    <div id="loginModal" class="modal-overlay" style="display: none;">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeLoginModal()">&times;</span>
+            <h2 style="color: #D32F2F; font-family: 'Dancing Script', cursive;">Đăng Nhập</h2>
+            <form id="homeLoginForm">
+                <div class="input-group">
+                    <input type="text" id="homeUsername" placeholder="Tên đăng nhập" required>
+                </div>
+                <div class="input-group">
+                    <input type="password" id="homePassword" placeholder="Mật khẩu" required>
+                </div>
+                <button type="submit" class="btn-submit-login">Đăng Nhập Ngay</button>
+                <p id="homeLoginError" style="color: red; margin-top: 10px; display: none;"></p>
+            </form>
+        </div>
+    </div>
+
+    <!-- SCRIPT XỬ LÝ LOGIN POPUP -->
+    <style>
+        .btn-auth {
+            padding: 10px 25px;
+            border-radius: 25px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 2px solid transparent;
+            font-size: 1rem;
+        }
+
+        .btn-login {
+            background: #D32F2F;
+            color: white;
+            box-shadow: 0 4px 10px rgba(211, 47, 47, 0.4);
+        }
+
+        .btn-register {
+            background: transparent;
+            border-color: #D32F2F;
+            color: #D32F2F;
+        }
+
+        .btn-auth:hover {
+            transform: translateY(-3px);
+        }
+
+        /* Modal Style */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 10000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-content {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 30px;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 350px;
+            text-align: center;
+            position: relative;
+            animation: popIn 0.3s ease-out;
+        }
+
+        @keyframes popIn {
+            from {
+                transform: scale(0.8);
+                opacity: 0;
+            }
+
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .close-modal {
+            position: absolute;
+            right: 15px;
+            top: 10px;
+            font-size: 30px;
+            cursor: pointer;
+            color: #aaa;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background: #f9f9f9;
+        }
+
+        .btn-submit-login {
+            width: 100%;
+            padding: 12px;
+            background: #D32F2F;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: 0.3s;
+        }
+
+        .btn-submit-login:hover {
+            background: #B71C1C;
+        }
+
+        /* Dark mode support */
+        body.dark-mode .btn-register {
+            border-color: #FFD700;
+            color: #FFD700;
+        }
+
+        body.dark-mode .modal-content {
+            background: #333;
+            color: white;
+            border: 1px solid #555;
+        }
+
+        body.dark-mode .input-group input {
+            background: #444;
+            color: white;
+            border-color: #666;
+        }
+
+        body.dark-mode h2 {
+            color: #FFD700 !important;
+        }
+    </style>
+
+    <script>
+        function openLoginModal() { document.getElementById('loginModal').style.display = 'flex'; }
+        function closeLoginModal() { document.getElementById('loginModal').style.display = 'none'; }
+        function openComingSoon() { alert('Chức năng Đăng Ký đang được phát triển!'); }
+
+        // Click outside to close
+        window.onclick = function (event) {
+            const modal = document.getElementById('loginModal');
+            if (event.target == modal) { modal.style.display = "none"; }
+        }
+
+        // Handle Login Logic
+        document.getElementById('homeLoginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const username = document.getElementById('homeUsername').value;
+            const password = document.getElementById('homePassword').value;
+            const errorMsg = document.getElementById('homeLoginError');
+            const btn = document.querySelector('.btn-submit-login');
+
+            btn.innerText = 'Đang xử lý...';
+            errorMsg.style.display = 'none';
+
+            const API_URL = window.location.hostname === 'localhost' ? 'http://localhost:5000' : '';
+
+            try {
+                const res = await fetch(`${API_URL}/auth/login`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username, password })
+                });
+                const data = await res.json();
+
+                if (res.ok) {
+                    localStorage.setItem('token', data.token);
+                    localStorage.setItem('username', data.username);
+                    alert('Đăng nhập thành công! Chuyển hướng đến Admin...');
+                    window.location.href = '/admin'; // Clean URL
+                } else {
+                    throw new Error(data.message || 'Đăng nhập thất bại');
+                }
+            } catch (err) {
+                errorMsg.innerText = err.message;
+                errorMsg.style.display = 'block';
+                btn.innerText = 'Thử Lại';
+            }
+        });
+    </script>
+
     <div class="container main-content-area">
         <!-- Nội dung trang chủ tạm thời để trống hoặc welcome -->
-        <div class="welcome-banner">
-            <h2>Chào mừng đến với Coffee Plizme</h2>
-            <p>Nơi tình yêu bốc đầu</p>
-        </div>
+
     </div>
 
     <!-- MENU DƯỚI CHÂN -->
