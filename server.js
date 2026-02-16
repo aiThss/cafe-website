@@ -51,7 +51,10 @@ app.get('/server-ip', async (req, res) => {
 
 // Routes
 const productRouter = require('./routes/products');
+const authRouter = require('./routes/auth');
+
 app.use('/products', productRouter);
+app.use('/auth', authRouter);
 
 // Start server immediately
 app.listen(PORT, () => {
