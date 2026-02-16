@@ -1196,3 +1196,15 @@ body.dark-mode .info-card:hover {
         background-attachment: scroll !important;
     }
 }
+
+/* --- MOBILE TWEAKS: Đổi màu chữ thông tin sang VÀNG --- */
+@media (max-width: 768px) {
+    .footer-content,
+    .footer-content p {
+        color: #FFD700 !important;
+        /* Màu Vàng Gold nổi bật */
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.9);
+        /* Bóng đen đậm để đọc rõ */
+        font-weight: 600;
+    }
+}
