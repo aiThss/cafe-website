@@ -62,10 +62,13 @@ function renderMenu() {
             menuContainer.innerHTML = ''; // Xóa loading
 
             data.forEach(item => {
+                // Check if image is a full URL (CDN) or a local filename
+                const imgSrc = item.image.startsWith('http') ? item.image : `cfe_img/coffee-img/${item.image}`;
+
                 const html = `
                     <div class="menu-item" onclick="showProductDetail(${item.id})">
                         <div class="menu-img-container">
-                            <img src="cfe_img/coffee-img/${item.image}" alt="${item.name}" loading="lazy">
+                            <img src="${imgSrc}" alt="${item.name}" loading="lazy">
                         </div>
                         <h3>${item.name}</h3>
                         <span>${item.description}</span>
