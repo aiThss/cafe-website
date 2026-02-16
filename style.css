@@ -1199,6 +1199,7 @@ body.dark-mode .info-card:hover {
 
 /* --- MOBILE TWEAKS: Đổi màu chữ thông tin sang VÀNG --- */
 @media (max-width: 768px) {
+
     .footer-content,
     .footer-content p {
         color: #FFD700 !important;
@@ -1206,5 +1207,16 @@ body.dark-mode .info-card:hover {
         text-shadow: 0 2px 4px rgba(0, 0, 0, 0.9);
         /* Bóng đen đậm để đọc rõ */
         font-weight: 600;
+    }
+
+    /* Đổi màu Menu dưới sang Vàng Gold trên Mobile */
+    .menu-duoi .muc-menu {
+        color: #FFD700 !important;
+        text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9);
+    }
+
+    .menu-duoi .muc-menu svg {
+        fill: #FFD700 !important;
+        filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.9));
     }
 }
