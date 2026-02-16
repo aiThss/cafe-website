@@ -14,10 +14,10 @@
     <!-- Custom Header giống Highlands -->
     <!-- Custom Header Ruy Băng -->
     <header class="main-header ribbon-style">
-        <div class="welcome-banner">
+        <div class="welcome-banner" style="pointer-events: auto;">
             <p>Chào Mừng Đến Với</p>
             <img src="cfe_img/coffee-img/coffee_baner.png" alt="Coffee Plizme Logo" class="banner-logo"
-                style="max-width: 80%; margin: 20px 0;">
+                style="max-width: 80%; margin: 20px 0; z-index: 1002; position: relative;">
 
             <div class="text-container">
                 <span class="letter">N</span>
@@ -43,7 +43,8 @@
             </div>
 
             <!-- AUTH BUTTONS SECTION -->
-            <div class="auth-buttons" style="margin-top: 30px; display: flex; justify-content: center; gap: 15px;">
+            <div class="auth-buttons"
+                style="margin-top: 30px; display: flex; justify-content: center; gap: 15px; position: relative; z-index: 1005;">
                 <button onclick="openLoginModal()" class="btn-auth btn-login">Đăng Nhập</button>
                 <button onclick="openComingSoon()" class="btn-auth btn-register">Đăng Ký</button>
             </div>
