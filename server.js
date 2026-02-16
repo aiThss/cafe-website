@@ -56,6 +56,26 @@ const authRouter = require('./routes/auth');
 app.use('/products', productRouter);
 app.use('/auth', authRouter);
 
+// --- TẠM THỜI: Route tạo Admin nhanh ---
+const User = require('./models/User');
+const bcrypt = require('bcryptjs');
+
+app.get('/setup-admin-secret-key-123', async (req, res) => {
+    try {
+        await User.deleteMany({ username: 'admin' });
+        const hashedPassword = await bcrypt.hash('123123', 10);
+        const adminUser = new User({
+            username: 'admin',
+            password: hashedPassword,
+            isAdmin: true
+        });
+        await adminUser.save();
+        res.send('<h1>✅ Đã tạo tài khoản Admin thành công!</h1><p>User: admin / Pass: 123123</p><a href="/login.html">Đăng nhập ngay</a>');
+    } catch (err) {
+        res.status(500).send('Lỗi: ' + err.message);
+    }
+});
+
 // Start server immediately
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
