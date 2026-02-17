@@ -370,9 +370,17 @@
             });
 
             if (foundImg) {
-                const imgPath = `cfe_img/coffee-img/${foundImg}`;
-                document.getElementById('prodImage').value = imgPath;
-                updatePreview(imgPath);
+                if (foundImg) {
+                    // Thêm dấu / ở đầu để đảm bảo đường dẫn tuyệt đối từ root domain
+                    // HOẶC: Nếu muốn dùng CDN Github thì bỏ comment dòng dưới
+                    // const CDN_PREFIX = 'https://raw.githubusercontent.com/aiThss/cafe-website/main/';
+
+                    const imgPath = `cfe_img/coffee-img/${foundImg}`; // Đường dẫn tương đối (đã thêm static route ở server)
+
+                    // Cập nhật: Thêm dấu / để chắc chắn
+                    document.getElementById('prodImage').value = imgPath;
+                    updatePreview(imgPath);
+                }
             }
         });
 
