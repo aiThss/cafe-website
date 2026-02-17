@@ -5,15 +5,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quản Lý Cửa Hàng - Coffee Plizme</title>
-    <!-- Tận dụng style của trang chính -->
-    <link rel="stylesheet" href="style.css?v=mobile_update_v4">
     <!-- Font Awesome cho icon -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <!-- LƯU Ý: Không import style.css của trang chủ nữa để tránh xung đột giao diện nghiêm trọng -->
+
     <style>
+        /* --- CSS RIÊNG BIỆT CHO TRANG QUẢN LÝ --- */
         body {
-            /* Nền tối sang trọng cho Manager */
             background-color: #1a1a1a;
             color: #eee;
+            font-family: sans-serif;
+            margin: 0;
             padding-bottom: 50px;
         }
 
@@ -24,7 +27,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
             position: sticky;
             top: 0;
             z-index: 1000;
@@ -33,8 +36,7 @@
         .mgr-header h2 {
             margin: 0;
             font-size: 1.5rem;
-            color: white !important;
-            text-shadow: none !important;
+            color: white;
         }
 
         .btn-logout {
@@ -55,18 +57,16 @@
         /* Container chính */
         .mgr-container {
             max-width: 1200px;
-            margin: 20px auto;
-            padding: 20px;
-            /* Force show content */
-            display: block !important;
-            position: relative;
-            z-index: 10;
-            background: rgba(0, 0, 0, 0.5);
-            /* Nền mờ giúp text dễ đọc */
+            margin: 30px auto;
+            padding: 25px;
+            background: #222;
+            /* Nền xám đen ĐẶC */
             border-radius: 15px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+            display: block !important;
         }
 
-        /* Thẻ Thống Kê Nhanh */
+        /* Stats */
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -77,9 +77,8 @@
         .stat-card {
             background: #333;
             padding: 20px;
-            border-radius: 15px;
+            border-radius: 10px;
             text-align: center;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
             border: 1px solid #444;
         }
 
@@ -90,20 +89,20 @@
             margin: 10px 0;
         }
 
-        /* Form Thêm/Sửa Món */
+        /* Form */
         .form-section {
             background: #2c2c2c;
             padding: 25px;
-            border-radius: 15px;
+            border-radius: 10px;
             margin-bottom: 30px;
             border: 1px solid #444;
         }
 
         .form-section h3 {
-            color: #FFD700 !important;
-            margin-top: 0;
+            color: #FFD700;
             border-bottom: 1px solid #555;
             padding-bottom: 15px;
+            margin-top: 0;
         }
 
         .form-grid {
@@ -112,110 +111,103 @@
             gap: 20px;
         }
 
-        @media (max-width: 768px) {
-            .form-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-
         .form-group {
             margin-bottom: 15px;
         }
 
         .form-group label {
             display: block;
-            margin-bottom: 5px;
+            margin-bottom: 8px;
             color: #ccc;
+            font-weight: bold;
         }
 
         .form-group input,
         .form-group select,
         .form-group textarea {
             width: 100%;
-            padding: 10px;
-            border-radius: 8px;
+            padding: 12px;
+            border-radius: 5px;
             border: 1px solid #555;
             background: #444;
             color: white;
+            font-size: 1rem;
+            box-sizing: border-box;
+            /* Quan trọng để không bị vỡ layout */
         }
 
+        .form-group input:focus {
+            border-color: #FFD700;
+            outline: none;
+        }
+
+        /* Buttons */
         .btn-submit {
             background: #388E3C;
-            /* Xanh lá */
             color: white;
             padding: 12px 25px;
             border: none;
-            border-radius: 8px;
+            border-radius: 5px;
             cursor: pointer;
             font-size: 1rem;
-            width: 100%;
-            margin-top: 10px;
-            transition: 0.3s;
         }
 
         .btn-submit:hover {
             background: #2E7D32;
         }
 
-        /* Danh sách món ăn Table */
+        /* Table */
         .product-table {
             width: 100%;
             border-collapse: collapse;
             background: #333;
-            border-radius: 10px;
-            overflow: hidden;
-        }
-
-        .product-table th,
-        .product-table td {
-            padding: 15px;
-            text-align: left;
-            border-bottom: 1px solid #444;
+            color: white;
         }
 
         .product-table th {
             background: #444;
             color: #FFD700;
+            padding: 15px;
+            text-align: left;
+        }
+
+        .product-table td {
+            padding: 15px;
+            border-bottom: 1px solid #555;
         }
 
         .product-img-thumb {
             width: 60px;
             height: 60px;
             object-fit: cover;
-            border-radius: 8px;
+            border-radius: 5px;
         }
 
-        .action-btns {
-            display: flex;
-            gap: 10px;
+        .action-btns button {
+            padding: 5px 10px;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            color: white;
+            margin-right: 5px;
         }
 
         .btn-edit {
             background: #1976D2;
-            color: white;
-            border: none;
-            padding: 5px 10px;
-            border-radius: 5px;
-            cursor: pointer;
         }
 
         .btn-delete {
             background: #D32F2F;
-            color: white;
-            border: none;
-            padding: 5px 10px;
-            border-radius: 5px;
-            cursor: pointer;
         }
 
-        /* Ẩn hiện modal loading */
-        .overlay {
+        /* Helpers */
+        .loading-overlay {
             position: fixed;
             top: 0;
             left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.8);
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
             display: none;
             justify-content: center;
             align-items: center;
@@ -223,11 +215,11 @@
         }
 
         .spinner {
-            border: 5px solid #f3f3f3;
-            border-top: 5px solid #FFD700;
+            width: 40px;
+            height: 40px;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #FFD700;
             border-radius: 50%;
-            width: 50px;
-            height: 50px;
             animation: spin 1s linear infinite;
         }
 
@@ -257,13 +249,12 @@
         <!-- Thống kê -->
         <div class="stats-grid">
             <div class="stat-card">
-                <div class="stat-title">N tổng món</div>
-                <div class="stat-number" id="totalProducts">0</div>
+                <div class="stat-title">Tổng món</div>
+                <div class="stat-number" id="totalProducts">...</div>
             </div>
             <div class="stat-card">
-                <div class="stat-title">Đơn hàng mới</div>
-                <div class="stat-number">0</div>
-                <small>(Tính năng chưa cập nhật)</small>
+                <div class="stat-title">Kho ảnh</div>
+                <div class="stat-number" id="totalImages">...</div>
             </div>
         </div>
 
@@ -276,7 +267,10 @@
                 <div class="form-grid">
                     <div class="form-group">
                         <label>Tên món</label>
-                        <input type="text" id="prodName" required placeholder="Ví dụ: Cà phê sữa...">
+                        <input type="text" id="prodName" required placeholder="Ví dụ: Cà phê sữa đá..."
+                            autocomplete="off">
+                        <small style="color: #aaa; display: block; margin-top: 5px;">*Tự động gợi ý ảnh khi nhập
+                            tên</small>
                     </div>
                     <div class="form-group">
                         <label>Giá tiền (VNĐ)</label>
@@ -284,8 +278,13 @@
                     </div>
                     <div class="form-group">
                         <label>Link ảnh (URL)</label>
-                        <input type="text" id="prodImage" required placeholder="https://...">
-                        <small style="color:#aaa;">*Nên dùng link CDN hoặc Imgur để đỡ nặng server</small>
+                        <div style="display: flex; gap: 10px;">
+                            <input type="text" id="prodImage" required placeholder="cfe_img/coffee-img/..."
+                                style="flex: 1;">
+                            <div id="imgPreview"
+                                style="width: 40px; height: 40px; background: #555; border-radius: 5px; overflow: hidden;">
+                            </div>
+                        </div>
                     </div>
                     <div class="form-group">
                         <label>Danh mục</label>
@@ -304,7 +303,7 @@
                 </div>
 
                 <div style="display: flex; gap: 10px;">
-                    <button type="submit" class="btn-submit" id="submitBtn">Lưu Món Ăn</button>
+                    <button type="submit" class="btn-submit" id="submitBtn">Lưu Món Ăn (Save)</button>
                     <button type="button" class="btn-submit" style="background:#555;" onclick="resetForm()"
                         id="cancelBtn">Hủy</button>
                 </div>
@@ -333,104 +332,126 @@
         </div>
     </div>
 
-    <!-- Loading Overlay -->
-    <div class="overlay" id="loadingOverlay">
+    <!-- Loading -->
+    <div class="loading-overlay" id="loadingOverlay">
         <div class="spinner"></div>
     </div>
 
-    <!-- Error Display -->
-    <div id="jsError"
-        style="display:none; color: red; background: white; padding: 20px; position: fixed; top: 10px; left: 10px; z-index: 9999;">
-    </div>
-
     <script>
-        window.onerror = function (msg, url, line) {
-            document.getElementById('jsError').style.display = 'block';
-            document.getElementById('jsError').innerText = `Lỗi JS: ${msg}\nLine: ${line}`;
-            return false;
-        };
-
-        // 1. KIỂM TRA ĐĂNG NHẬP
-        const token = localStorage.getItem('token');
-        if (!token) {
-            // Không alert làm phiền, chuyển thẳng về login nếu không phải dev
-            if (window.location.hostname !== 'localhost') {
-                window.location.href = 'index.html';
-            }
-        } else {
-            const container = document.querySelector('.mgr-container');
-            if (container) container.style.display = 'block';
-        }
-
         const API_URL = window.location.hostname === 'localhost' ? 'http://localhost:5000' : '';
-        const nameEl = document.getElementById('mgrName');
-        if (nameEl) nameEl.innerText = 'Xin chào, ' + (localStorage.getItem('username') || 'Sếp');
+        let availableImages = [];
 
-        // Hàm gọi API có kèm Token
-        async function fetchWithAuth(url, options = {}) {
-            const headers = {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`,
-                ...options.headers
-            };
-            try {
-                const response = await fetch(url, { ...options, headers });
-                if (response.status === 401 || response.status === 403) {
-                    alert('Phiên đăng nhập hết hạn!');
-                    logout();
-                    return null;
-                }
-                return response;
-            } catch (e) {
-                alert('Lỗi kết nối: ' + e.message);
-                throw e;
+        // 1. INIT
+        (async function init() {
+            // Check Token
+            const token = localStorage.getItem('token');
+            if (!token) {
+                if (window.location.hostname !== 'localhost') window.location.href = 'index.html';
             }
+
+            document.getElementById('mgrName').innerText = 'Xin chào, ' + (localStorage.getItem('username') || 'Sếp');
+
+            await loadImages(); // Tải danh sách ảnh trước
+            await loadProducts(); // Tải danh sách món
+        })();
+
+        // 2. Logic Gợi Ý Ảnh Tự Động
+        document.getElementById('prodName').addEventListener('input', function (e) {
+            const name = e.target.value;
+            if (!name) return;
+
+            // Chuyển tên món thành dạng không dấu, viết liền (vd: "Cà phê sữa" -> "caphesua")
+            const cleanName = removeVietnameseTones(name.toLowerCase()).replace(/[^a-z0-9]/g, '');
+
+            // Tìm ảnh có tên chứa từ khóa
+            const foundImg = availableImages.find(img => {
+                const cleanImg = img.toLowerCase().replace(/[^a-z0-9]/g, '');
+                return cleanImg.includes(cleanName);
+            });
+
+            if (foundImg) {
+                const imgPath = `cfe_img/coffee-img/${foundImg}`;
+                document.getElementById('prodImage').value = imgPath;
+                updatePreview(imgPath);
+            }
+        });
+
+        document.getElementById('prodImage').addEventListener('input', (e) => updatePreview(e.target.value));
+
+        function updatePreview(url) {
+            document.getElementById('imgPreview').innerHTML = `<img src="${url}" style="width:100%; height:100%; object-fit:cover;">`;
         }
 
-        // Load danh sách món
+        function removeVietnameseTones(str) {
+            str = str.replace(/à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ/g, "a");
+            str = str.replace(/è|é|ẹ|ẻ|ẽ|ê|ề|ế|ệ|ể|ễ/g, "e");
+            str = str.replace(/ì|í|ị|ỉ|ĩ/g, "i");
+            str = str.replace(/ò|ó|ọ|ỏ|õ|ô|ồ|ố|ộ|ổ|ỗ|ơ|ờ|ớ|ợ|ở|ỡ/g, "o");
+            str = str.replace(/ù|ú|ụ|ủ|ũ|ư|ừ|ứ|ự|ử|ữ/g, "u");
+            str = str.replace(/ỳ|ý|ỵ|ỷ|ỹ/g, "y");
+            str = str.replace(/đ/g, "d");
+            return str;
+        }
+
+        // 3. API & Data Loading
+        async function loadImages() {
+            try {
+                const res = await fetch(`${API_URL}/api/images`);
+                availableImages = await res.json();
+                document.getElementById('totalImages').innerText = availableImages.length;
+                console.log('Loaded images:', availableImages);
+            } catch (e) { console.error('Error loading images', e); }
+        }
+
         async function loadProducts() {
             showLoading(true);
             try {
                 const res = await fetch(`${API_URL}/products`);
                 const products = await res.json();
-
                 document.getElementById('totalProducts').innerText = products.length;
 
                 const tbody = document.getElementById('productTableBody');
-                tbody.innerHTML = ''; // Xóa cũ
+                tbody.innerHTML = '';
 
-                products.forEach(p => {
-                    const row = `
+                products.reverse().forEach(p => { // Mới nhất lên đầu
+                    tbody.innerHTML += `
                         <tr>
-                            <td><img src="${p.image}" class="product-img-thumb" alt="${p.name}"></td>
+                            <td><img src="${p.image}" class="product-img-thumb" onerror="this.src='cfe_img/coffee-img/logo-resize.png'"></td>
                             <td><strong>${p.name}</strong><br><small>${p.description || ''}</small></td>
                             <td>${Number(p.price).toLocaleString('vi-VN')}đ</td>
-                            <td><span style="text-transform:capitalize;">${p.category}</span></td>
+                            <td>${p.category}</td>
                             <td>
                                 <div class="action-btns">
                                     <button class="btn-edit" onclick="editProduct('${p._id}', '${p.name}', ${p.price}, '${p.image}', '${p.category}', '${p.description}')"><i class="fas fa-edit"></i></button>
                                     <button class="btn-delete" onclick="deleteProduct('${p._id}')"><i class="fas fa-trash"></i></button>
                                 </div>
                             </td>
-                        </tr>
-                    `;
-                    tbody.innerHTML += row;
+                        </tr>`;
                 });
-            } catch (err) {
-                console.error(err);
-                alert('Lỗi tải danh sách món!');
-            } finally {
-                showLoading(false);
-            }
+            } catch (err) { alert('Lỗi tải món: ' + err.message); }
+            finally { showLoading(false); }
         }
 
-        // Thêm / Sửa món
+        // ... (Các hàm Submit, Delete, Edit, Logout giữ nguyên logic cũ nhưng wrap lại cho gọn) ...
+
+        // Helper: Fetch with Token
+        async function fetchWithAuth(url, options = {}) {
+            const token = localStorage.getItem('token');
+            const headers = {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
+                ...options.headers
+            };
+            const response = await fetch(url, { ...options, headers });
+            if (response.status === 401) { logout(); return null; }
+            return response;
+        }
+
+        // Form Submit
         document.getElementById('productForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             const id = document.getElementById('productId').value;
-            const isEdit = !!id;
-
-            const productData = {
+            const data = {
                 name: document.getElementById('prodName').value,
                 price: Number(document.getElementById('prodPrice').value),
                 image: document.getElementById('prodImage').value,
@@ -440,64 +461,30 @@
 
             showLoading(true);
             try {
-                let url = `${API_URL}/products`;
-                let method = 'POST';
-
-                if (isEdit) {
-                    url = `${API_URL}/products/${id}`;
-                    method = 'PUT'; // Cần API update (chưa có, sẽ báo nếu lỗi)
-                }
-
-                const res = await fetchWithAuth(url, {
-                    method: method,
-                    body: JSON.stringify(productData)
-                });
+                const url = id ? `${API_URL}/products/${id}` : `${API_URL}/products`;
+                const method = id ? 'PUT' : 'POST';
+                const res = await fetchWithAuth(url, { method, body: JSON.stringify(data) });
 
                 if (res && res.ok) {
-                    alert(isEdit ? 'Sửa món thành công!' : 'Thêm món thành công!');
+                    alert('Thành công!');
                     resetForm();
                     loadProducts();
-                } else {
-                    const errData = await res.json();
-                    alert('Lỗi: ' + (errData.message || 'Không thể lưu món'));
-                }
-            } catch (err) {
-                console.error(err);
-                alert('Có lỗi xảy ra!');
-            } finally {
-                showLoading(false);
-            }
+                } else alert('Lỗi khi lưu!');
+            } catch (e) { alert('Lỗi kết nối!'); }
+            finally { showLoading(false); }
         });
 
-        // Xóa món
-        async function deleteProduct(id) {
-            if (!confirm('Bạn có chắc chắn muốn xóa món này không?')) return;
-
+        window.deleteProduct = async function (id) {
+            if (!confirm('Xóa nhé?')) return;
             showLoading(true);
             try {
-                const res = await fetchWithAuth(`${API_URL}/products/${id}`, {
-                    method: 'DELETE'
-                });
+                const res = await fetchWithAuth(`${API_URL}/products/${id}`, { method: 'DELETE' });
+                if (res && res.ok) loadProducts();
+                else alert('Lỗi xóa!');
+            } catch (e) { } finally { showLoading(false); }
+        };
 
-                if (res && res.ok) {
-                    alert('Đã xóa món ăn!');
-                    loadProducts();
-                } else {
-                    alert('Không thể xóa món!');
-                }
-            } catch (err) {
-                alert('Lỗi kết nối!');
-            } finally {
-                showLoading(false);
-            }
-        }
-
-        // Điền form để sửa
         window.editProduct = function (id, name, price, image, category, desc) {
-            document.getElementById('formTitle').innerText = 'Sửa Món Ăn';
-            document.getElementById('submitBtn').innerText = 'Cập Nhật Món';
-            document.getElementById('submitBtn').style.background = '#1976D2';
-
             document.getElementById('productId').value = id;
             document.getElementById('prodName').value = name;
             document.getElementById('prodPrice').value = price;
@@ -505,7 +492,10 @@
             document.getElementById('prodCategory').value = category;
             document.getElementById('prodDesc').value = desc;
 
-            // Scroll lên form
+            document.getElementById('formTitle').innerText = 'Sửa Món';
+            document.getElementById('submitBtn').innerText = 'Cập Nhật';
+            document.getElementById('submitBtn').style.background = '#1976D2';
+            updatePreview(image);
             document.querySelector('.form-section').scrollIntoView({ behavior: 'smooth' });
         };
 
@@ -515,22 +505,17 @@
             document.getElementById('formTitle').innerText = 'Thêm Món Mới';
             document.getElementById('submitBtn').innerText = 'Lưu Món Ăn';
             document.getElementById('submitBtn').style.background = '#388E3C';
+            updatePreview('');
         };
 
         window.logout = function () {
-            localStorage.removeItem('token');
-            localStorage.removeItem('username');
-            localStorage.removeItem('isAdmin');
-            window.location.href = 'index.html';
+            localStorage.clear();
+            window.location.href = '/';
         };
 
         function showLoading(show) {
             document.getElementById('loadingOverlay').style.display = show ? 'flex' : 'none';
         }
-
-        // Chạy lần đầu
-        loadProducts();
-
     </script>
 </body>
 

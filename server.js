@@ -30,6 +30,22 @@ mongoose.connect(process.env.MONGO_URI, {
 app.use(cors());
 app.use(express.json());
 
+// API lấy danh sách ảnh để gợi ý tự động
+app.get('/api/images', (req, res) => {
+    const fs = require('fs');
+    const imgDir = path.join(__dirname, 'cfe_img/coffee-img');
+
+    fs.readdir(imgDir, (err, files) => {
+        if (err) {
+            console.error(err);
+            return res.status(500).json([]);
+        }
+        // Lọc chỉ lấy file ảnh
+        const images = files.filter(f => /\.(jpg|jpeg|png|gif|webp)$/i.test(f));
+        res.json(images);
+    });
+});
+
 // Serve static files from the current directory
 app.use(express.static(__dirname));
 
