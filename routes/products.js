@@ -37,9 +37,11 @@ router.post('/', verifyToken, async (req, res) => {
     }
 
     const product = new Product({
+        // Fallback: Tự sinh id ngẫu nhiên nếu Schema cũ vẫn yêu cầu
+        id: Date.now().toString(),
         name,
         price,
-        image: image || 'https://via.placeholder.com/150', // Ảnh default nếu ko có
+        image: image || 'cfe_img/coffee-img/logo-resize.png',
         category: category || 'other',
         description
     });
