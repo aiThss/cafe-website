@@ -62,16 +62,22 @@ function renderMenu() {
             menuContainer.innerHTML = ''; // Xóa loading
 
             data.forEach(item => {
-                // Check if image is a full URL (CDN) or a local filename
-                const imgSrc = item.image.startsWith('http') ? item.image : `cfe_img/coffee-img/${item.image}`;
+                // Xử lý ảnh: Nếu là link ngoài hoặc đã có đường dẫn đầy đủ thì giữ nguyên
+                let imgSrc = item.image;
+                if (!imgSrc.startsWith('http') && !imgSrc.includes('cfe_img/')) {
+                    imgSrc = `cfe_img/coffee-img/${item.image}`;
+                }
+
+                // ID của MongoDB là _id, nhưng fallback id nếu có
+                const itemId = item._id || item.id;
 
                 const html = `
-                    <div class="menu-item" onclick="showProductDetail(${item.id})">
+                    <div class="menu-item" onclick="showProductDetail('${itemId}')">
                         <div class="menu-img-container">
-                            <img src="${imgSrc}" alt="${item.name}" loading="lazy">
+                            <img src="${imgSrc}" alt="${item.name}" loading="lazy" onerror="this.src='cfe_img/coffee-img/logo-resize.png'">
                         </div>
                         <h3>${item.name}</h3>
-                        <span>${item.description}</span>
+                        <p class="desc-text">${item.description || ''}</p>
                         <p style="color: var(--mau-nhan); font-weight: bold; margin-top: 5px;">${formatCurrency(item.price)}</p>
                     </div>
                 `;
@@ -104,24 +110,21 @@ document.addEventListener('DOMContentLoaded', () => {
     // 1. Cài đặt lại giao diện Sáng/Tối
     const savedTheme = localStorage.getItem('theme');
     if (savedTheme === 'dark') {
-        document.body.classList.add('dark-mode');
-    }
+        // Kích hoạt tính năng Dark Mode
+        setupDarkMode();
 
-    // Kích hoạt tính năng Dark Mode
-    setupDarkMode();
+        // 2. Setup Navigation (SPA)
+        setupNavigation();
 
-    // 2. Setup Navigation (SPA)
-    setupNavigation();
+        // 3. Render Menu ngay lập tức nếu đang ở trang có menu-list
+        renderMenu();
 
-    // 3. Render Menu ngay lập tức nếu đang ở trang có menu-list
-    renderMenu();
+        // 4. Render Footer
+        renderFooter();
 
-    // 4. Render Footer
-    renderFooter();
-
-    // Thêm class loaded để hiện body
-    document.body.classList.add('loaded');
-});
+        // Thêm class loaded để hiện body
+        document.body.classList.add('loaded');
+    });
 
 // --- LOGIC DARK MODE ---
 function setupDarkMode() {
