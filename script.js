@@ -68,18 +68,20 @@ function renderMenu() {
                 // Xử lý ảnh: Ưu tiên ảnh local, nếu lỗi thì fallback (xử lý ở thẻ img)
                 // Logic: Nếu ảnh là link full (http) -> dùng luôn.
                 // Nếu là tên file -> ghép đường dẫn local.
-                let imgSrc = item.image;
-                if (!imgSrc.startsWith('http')) {
-                    // Nếu trong data đã lưu sẵn 'cfe_img/...' thì không thêm prefix
+                // Xử lý ảnh: Default nếu thiếu
+                let imgSrc = item.image || 'cfe_img/coffee-img/logo-resize.png';
+
+                if (imgSrc && !imgSrc.startsWith('http')) {
                     if (imgSrc.includes('cfe_img/')) {
                         imgSrc = imgSrc;
                     } else {
-                        imgSrc = `cfe_img/coffee-img/${item.image}`;
+                        imgSrc = `cfe_img/coffee-img/${imgSrc}`;
                     }
                 }
 
-                // ID: Dùng _id của Mongo
                 const itemId = item._id || item.id;
+                // Safe filename for CDN
+                const safeImgName = (item.image || '').replace(/.*\//, '') || 'logo-resize.png';
 
                 const html = `
                     <div class="menu-item" onclick="showProductDetail('${itemId}')">
@@ -87,7 +89,7 @@ function renderMenu() {
                             <img src="${imgSrc}" 
                                  alt="${item.name}" 
                                  loading="lazy" 
-                                 onerror="this.onerror=null; this.src='${CDN_PREFIX}${item.image.replace(/.*\//, '')}';">
+                                 onerror="this.onerror=null; this.src='${CDN_PREFIX}${safeImgName}';">
                         </div>
                         <h3>${item.name}</h3>
                         <p class="desc-text">${item.description || ''}</p>
