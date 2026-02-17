@@ -49,6 +49,9 @@ app.get('/api/images', (req, res) => {
 // Serve static files from the current directory
 app.use(express.static(__dirname));
 
+// Force serve thư mục ảnh cfe_img để tránh lỗi 404 từ các trang con
+app.use('/cfe_img', express.static(path.join(__dirname, 'cfe_img')));
+
 // --- CLEAN URL ROUTING (Ẩn đuôi .html) ---
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'index.html'));
