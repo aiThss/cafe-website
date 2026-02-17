@@ -55,26 +55,39 @@ function renderMenu() {
 
     console.log('Fetching menu from:', API_URL);
 
+    // Link CDN dự phòng cho ảnh (Github Repo)
+    const CDN_PREFIX = 'https://raw.githubusercontent.com/aiThss/cafe-website/main/cfe_img/coffee-img/';
+
     // Gọi API từ json-server
     fetch(API_URL)
         .then(response => response.json())
         .then(data => {
-            menuContainer.innerHTML = ''; // Xóa loading
+            menuContainer.innerHTML = '';
 
             data.forEach(item => {
-                // Xử lý ảnh: Nếu là link ngoài hoặc đã có đường dẫn đầy đủ thì giữ nguyên
+                // Xử lý ảnh: Ưu tiên ảnh local, nếu lỗi thì fallback (xử lý ở thẻ img)
+                // Logic: Nếu ảnh là link full (http) -> dùng luôn.
+                // Nếu là tên file -> ghép đường dẫn local.
                 let imgSrc = item.image;
-                if (!imgSrc.startsWith('http') && !imgSrc.includes('cfe_img/')) {
-                    imgSrc = `cfe_img/coffee-img/${item.image}`;
+                if (!imgSrc.startsWith('http')) {
+                    // Nếu trong data đã lưu sẵn 'cfe_img/...' thì không thêm prefix
+                    if (imgSrc.includes('cfe_img/')) {
+                        imgSrc = imgSrc;
+                    } else {
+                        imgSrc = `cfe_img/coffee-img/${item.image}`;
+                    }
                 }
 
-                // ID của MongoDB là _id, nhưng fallback id nếu có
+                // ID: Dùng _id của Mongo
                 const itemId = item._id || item.id;
 
                 const html = `
                     <div class="menu-item" onclick="showProductDetail('${itemId}')">
                         <div class="menu-img-container">
-                            <img src="${imgSrc}" alt="${item.name}" loading="lazy" onerror="this.src='cfe_img/coffee-img/logo-resize.png'">
+                            <img src="${imgSrc}" 
+                                 alt="${item.name}" 
+                                 loading="lazy" 
+                                 onerror="this.onerror=null; this.src='${CDN_PREFIX}${item.image.replace(/.*\//, '')}';">
                         </div>
                         <h3>${item.name}</h3>
                         <p class="desc-text">${item.description || ''}</p>
@@ -86,22 +99,33 @@ function renderMenu() {
         })
         .catch(error => {
             console.error('Lỗi lấy dữ liệu:', error);
-            menuContainer.innerHTML = `<div style="text-align:center; color:red; width: 100%; grid-column: span 2; padding: 20px;">
-                <h3>Server không phản hồi!</h3>
-                <p>Chi tiết lỗi: ${error.message}</p>
-                <p>Vui lòng kiểm tra lại kết nối mạng hoặc thử lại sau.</p>
-            </div>`;
+            menuContainer.innerHTML = `<p style="text-align:center; color:red;">Lỗi kết nối Server!</p>`;
         });
 }
 
-// Hàm giả lập xem chi tiết 
+// Hàm xem chi tiết (đã fix lỗi undefined)
 function showProductDetail(id) {
-    fetch(`/products/${id}`)
-        .then(response => response.json())
-        .then(product => {
-            alert(`Bạn chọn món: ${product.name}\nGiá: ${formatCurrency(product.price)}`);
+    if (!id || id === 'undefined') {
+        alert('Không tìm thấy thông tin món (Mã lỗi: ID Null)');
+        return;
+    }
+
+    const API_URL_DETAIL = window.location.hostname === 'localhost'
+        ? `http://localhost:5000/products/${id}`
+        : `/products/${id}`;
+
+    fetch(API_URL_DETAIL)
+        .then(response => {
+            if (!response.ok) throw new Error('Món ăn không tồn tại hoặc đã bị xóa');
+            return response.json();
         })
-        .catch(error => console.error('Lỗi:', error));
+        .then(product => {
+            alert(`Bạn chọn món: ${product.name}\nGiá: ${formatCurrency(product.price)}\n\n${product.description || ''}`);
+        })
+        .catch(error => {
+            console.error(error);
+            alert('Lỗi: ' + error.message);
+        });
 }
 
 // --- KHỞI CHẠY ---
