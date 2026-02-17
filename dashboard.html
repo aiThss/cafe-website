@@ -448,12 +448,18 @@
         }
 
         // Form Submit
+        // Form Submit
         document.getElementById('productForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             const id = document.getElementById('productId').value;
+
+            // Xử lý giá tiền: Xóa dấu chấm/phẩy
+            let rawPrice = document.getElementById('prodPrice').value;
+            rawPrice = rawPrice.replace(/\./g, '').replace(/,/g, '');
+
             const data = {
                 name: document.getElementById('prodName').value,
-                price: Number(document.getElementById('prodPrice').value),
+                price: Number(rawPrice),
                 image: document.getElementById('prodImage').value,
                 category: document.getElementById('prodCategory').value,
                 description: document.getElementById('prodDesc').value
@@ -465,12 +471,21 @@
                 const method = id ? 'PUT' : 'POST';
                 const res = await fetchWithAuth(url, { method, body: JSON.stringify(data) });
 
-                if (res && res.ok) {
-                    alert('Thành công!');
-                    resetForm();
-                    loadProducts();
-                } else alert('Lỗi khi lưu!');
-            } catch (e) { alert('Lỗi kết nối!'); }
+                if (res) {
+                    if (res.ok) {
+                        alert(id ? 'Cập nhật thành công!' : 'Thêm mới thành công!');
+                        resetForm();
+                        loadProducts();
+                    } else {
+                        // Đọc lỗi từ server
+                        const err = await res.json();
+                        alert('Lỗi: ' + (err.message || 'Không thể lưu dữ liệu'));
+                    }
+                }
+            } catch (e) {
+                console.error(e);
+                alert('Lỗi kết nối: ' + e.message);
+            }
             finally { showLoading(false); }
         });
 
