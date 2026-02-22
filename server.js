@@ -58,7 +58,7 @@ app.get('/', (req, res) => {
 });
 
 app.get('/menu', (req, res) => {
-    res.sendFile(path.join(__dirname, 'menu.html'));
+    res.sendFile(path.join(__dirname, 'MENU.HTML'));
 });
 
 // Đổi route Admin thành Quan-ly để né AdBlock
@@ -70,10 +70,6 @@ app.get('/quan-ly', (req, res) => {
 app.get('/admin', (req, res) => res.redirect('/quan-ly'));
 app.get('/MENU.HTML', (req, res) => res.redirect('/menu'));
 
-// Serve index.html for root
-app.get('/', (req, res) => {
-    res.sendFile(__dirname + '/index.html');
-});
 
 // Helper route to check Server IP
 app.get('/server-ip', async (req, res) => {
